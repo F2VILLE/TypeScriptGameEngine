@@ -14,6 +14,7 @@ class Input extends EventTarget {
     right: string;
     jump: string;
   };
+  keys: Array<string> = [];
   constructor(
     keybinds = {
       forward: "z",
@@ -21,17 +22,21 @@ class Input extends EventTarget {
       left: "q",
       right: "d",
       jump: " ",
-    },
-    canvas: HTMLCanvasElement
+    }
   ) {
     super();
 
     this.keybinds = keybinds;
   }
 
+  key(key: string) {
+    return this.keys.includes(key);
+  }
+
   listen() {
     document.addEventListener("keypress", (e) => {
       const key = e.key.toLowerCase();
+      this.keys.push(key);
       this.dispatchEvent(new CustomEvent("keypress", { detail: { key } }));
       switch (key) {
         case this.keybinds.forward:
@@ -50,6 +55,11 @@ class Input extends EventTarget {
           this.dispatchEvent(new CustomEvent("jump"));
           break;
       }
+    });
+
+    document.addEventListener("keyup", (e) => {
+      const key = e.key.toLowerCase();
+      this.keys = this.keys.filter((k) => k !== key);
     });
   }
 

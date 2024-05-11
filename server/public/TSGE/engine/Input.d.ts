@@ -7,13 +7,15 @@ declare class Input extends EventTarget {
         right: string;
         jump: string;
     };
-    constructor(keybinds: {
+    keys: Array<string>;
+    constructor(keybinds?: {
         forward: string;
         backward: string;
         left: string;
         right: string;
         jump: string;
-    } | undefined, canvas: HTMLCanvasElement);
+    });
+    key(key: string): boolean;
     listen(): void;
     on(event: GetKeyEvent, callback: (e: Event) => void): void;
 }
