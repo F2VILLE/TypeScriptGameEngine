@@ -7,23 +7,9 @@ type GetKeyEvent =
   | "keypress";
 
 class Input extends EventTarget {
-  keybinds: {
-    forward: string;
-    backward: string;
-    left: string;
-    right: string;
-    jump: string;
-  };
+  keybinds: Record<string, string>;
   keys: Array<string> = [];
-  constructor(
-    keybinds = {
-      forward: "z",
-      backward: "s",
-      left: "q",
-      right: "d",
-      jump: " ",
-    }
-  ) {
+  constructor(keybinds: Record<string, string>) {
     super();
 
     this.keybinds = keybinds;
@@ -38,22 +24,28 @@ class Input extends EventTarget {
       const key = e.key.toLowerCase();
       this.keys.push(key);
       this.dispatchEvent(new CustomEvent("keypress", { detail: { key } }));
-      switch (key) {
-        case this.keybinds.forward:
-          this.dispatchEvent(new CustomEvent("forward"));
-          break;
-        case this.keybinds.backward:
-          this.dispatchEvent(new CustomEvent("backward"));
-          break;
-        case this.keybinds.left:
-          this.dispatchEvent(new CustomEvent("left"));
-          break;
-        case this.keybinds.right:
-          this.dispatchEvent(new CustomEvent("right"));
-          break;
-        case this.keybinds.jump:
-          this.dispatchEvent(new CustomEvent("jump"));
-          break;
+      //   switch (key) {
+      //     case this.keybinds.forward:
+      //       this.dispatchEvent(new CustomEvent("forward"));
+      //       break;
+      //     case this.keybinds.backward:
+      //       this.dispatchEvent(new CustomEvent("backward"));
+      //       break;
+      //     case this.keybinds.left:
+      //       this.dispatchEvent(new CustomEvent("left"));
+      //       break;
+      //     case this.keybinds.right:
+      //       this.dispatchEvent(new CustomEvent("right"));
+      //       break;
+      //     case this.keybinds.jump:
+      //       this.dispatchEvent(new CustomEvent("jump"));
+      //       break;
+      //   }
+      for (const k of Object.keys(this.keybinds)) {
+
+        if (key === this.keybinds[k]) {
+          this.dispatchEvent(new CustomEvent(k));
+        }
       }
     });
 

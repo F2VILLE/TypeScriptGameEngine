@@ -5,11 +5,13 @@ declare class Display extends EventTarget {
     ctx: CanvasRenderingContext2D;
     FPS: number;
     entities: GameObject[];
-    input: Input;
+    input: Input | null;
     private deltaTime;
     constructor(width: number, height: number, FPS?: number);
+    setupInput(keybinds: Record<string, string>): void;
     addEntity(entity: GameObject): void;
     loop(): void;
+    update(): void;
     on(event: string, callback: (e: Event) => void): void;
     render(): void;
     deltatime(): number;
